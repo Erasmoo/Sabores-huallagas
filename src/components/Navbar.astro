@@ -1,0 +1,79 @@
+---
+// Navbar.astro — Barra de navegación fija con menú hamburguesa para móvil
+---
+
+<nav
+  id="main-nav"
+  class="fixed top-0 left-0 w-full z-50 bg-dark text-cream shadow-md"
+>
+  <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+    <!-- Logo / nombre del restaurante -->
+    <a href="/" class="font-serif text-xl font-bold text-gold leading-tight">
+      Sabores Huallada
+    </a>
+
+    <!-- Botón hamburguesa (solo móvil) -->
+    <button
+      id="hamburger-btn"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 focus:outline-none"
+    >
+      <span class="block w-6 h-0.5 bg-cream transition-all duration-300"></span>
+      <span class="block w-6 h-0.5 bg-cream transition-all duration-300"></span>
+      <span class="block w-6 h-0.5 bg-cream transition-all duration-300"></span>
+    </button>
+
+    <!-- Links de navegación — escritorio -->
+    <ul class="hidden md:flex gap-8 text-sm font-sans font-medium">
+      <li><a href="#menu"      class="hover:text-gold transition-colors">Menú</a></li>
+      <li><a href="#horarios"  class="hover:text-gold transition-colors">Horarios</a></li>
+      <li><a href="#ubicacion" class="hover:text-gold transition-colors">Ubicación</a></li>
+      <li><a href="#contacto"  class="hover:text-gold transition-colors">Contacto</a></li>
+    </ul>
+  </div>
+
+  <!-- Menú desplegable móvil -->
+  <ul
+    id="mobile-menu"
+    class="md:hidden hidden flex-col bg-dark border-t border-jungle-green px-4 pb-4 pt-2 gap-2 text-sm font-sans font-medium"
+  >
+    <li><a href="#menu"      class="block py-2 hover:text-gold transition-colors">Menú</a></li>
+    <li><a href="#horarios"  class="block py-2 hover:text-gold transition-colors">Horarios</a></li>
+    <li><a href="#ubicacion" class="block py-2 hover:text-gold transition-colors">Ubicación</a></li>
+    <li><a href="#contacto"  class="block py-2 hover:text-gold transition-colors">Contacto</a></li>
+  </ul>
+</nav>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = nav?.hasAttribute('data-open');
+
+    if (isOpen) {
+      nav?.removeAttribute('data-open');
+      menu?.classList.add('hidden');
+      menu?.classList.remove('flex');
+      btn?.setAttribute('aria-expanded', 'false');
+    } else {
+      nav?.setAttribute('data-open', '');
+      menu?.classList.remove('hidden');
+      menu?.classList.add('flex');
+      btn?.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Cerrar menú al hacer clic en un enlace (móvil)
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav?.removeAttribute('data-open');
+      menu?.classList.add('hidden');
+      menu?.classList.remove('flex');
+      btn?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

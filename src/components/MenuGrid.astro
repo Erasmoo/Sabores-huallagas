@@ -1,0 +1,41 @@
+---
+// MenuGrid.astro — Sección del menú agrupada por categorías
+import menuData from '../data/menu.json';
+import MenuCard from './MenuCard.astro';
+
+const { categories, items } = menuData;
+
+// Agrupar platos por categoría respetando el orden de `categories`
+const grouped = categories.map((cat) => ({
+  category: cat,
+  items: items.filter((item) => item.category === cat),
+}));
+---
+
+<section id="menu" class="py-16 px-4 bg-cream">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="font-serif text-4xl font-bold text-dark text-center mb-12">
+      Nuestro Menú
+    </h2>
+
+    {grouped.map(({ category, items: categoryItems }) => categoryItems.length > 0 && (
+      <div class="mb-14">
+        <h3 class="font-serif text-2xl font-semibold text-jungle-green capitalize mb-6 border-b-2 border-jungle-green/30 pb-2">
+          {category}
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categoryItems.map((item) => (
+            <MenuCard
+              name={item.name}
+              description={item.description}
+              category={item.category}
+              imageSrc={item.imageSrc}
+              imageAlt={item.imageAlt}
+              price={item.price}
+            />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

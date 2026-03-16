@@ -1,0 +1,49 @@
+---
+// Horarios.astro — Sección de horarios de atención del restaurante
+---
+
+<section id="horarios" class="bg-cream py-16 px-4">
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-dark mb-2">
+      Horarios de Atención
+    </h2>
+    <p class="font-sans text-jungle-green font-semibold text-lg mb-8">
+      Lunes a Viernes
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <!-- Primer turno -->
+      <div class="flex-1 bg-white border-t-4 border-peru-red rounded-xl shadow-md px-6 py-6">
+        <p class="font-sans text-xs font-bold uppercase tracking-widest text-peru-red mb-2">
+          Primer Turno
+        </p>
+        <p class="font-serif text-2xl font-bold text-dark">
+          7:00 AM
+        </p>
+        <p class="font-sans text-dark/50 text-sm my-1">hasta</p>
+        <p class="font-serif text-2xl font-bold text-dark">
+          12:00 PM
+        </p>
+      </div>
+
+      <!-- Separador -->
+      <div class="hidden sm:flex items-center">
+        <div class="w-px h-full bg-gold/40"></div>
+      </div>
+
+      <!-- Segundo turno -->
+      <div class="flex-1 bg-white border-t-4 border-jungle-green rounded-xl shadow-md px-6 py-6">
+        <p class="font-sans text-xs font-bold uppercase tracking-widest text-jungle-green mb-2">
+          Segundo Turno
+        </p>
+        <p class="font-serif text-2xl font-bold text-dark">
+          1:30 PM
+        </p>
+        <p class="font-sans text-dark/50 text-sm my-1">hasta</p>
+        <p class="font-serif text-2xl font-bold text-dark">
+          10:00 PM
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

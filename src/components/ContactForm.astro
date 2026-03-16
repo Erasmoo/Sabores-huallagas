@@ -1,0 +1,243 @@
+---
+// ContactForm.astro — Formulario de contacto con validación y envío a Formspree
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdjjyqz";
+---
+
+<section id="contacto" class="bg-cream py-16 px-4">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-dark text-center mb-2">
+      Contáctanos
+    </h2>
+    <p class="font-sans text-dark/70 text-center mb-10">
+      ¿Tienes alguna consulta o reserva? Escríbenos y te responderemos pronto.
+    </p>
+
+    <!-- Mensaje de confirmación (oculto por defecto) -->
+    <div
+      id="form-success"
+      class="hidden bg-jungle-green/10 border border-jungle-green text-jungle-green rounded-lg px-5 py-4 mb-6 text-center font-sans font-medium"
+      role="alert"
+      aria-live="polite"
+    >
+      ¡Mensaje enviado! Te contactaremos pronto.
+    </div>
+
+    <!-- Mensaje de error general (oculto por defecto) -->
+    <div
+      id="form-error-general"
+      class="hidden bg-peru-red/10 border border-peru-red text-peru-red rounded-lg px-5 py-4 mb-6 text-center font-sans font-medium"
+      role="alert"
+      aria-live="polite"
+    >
+      No se pudo enviar el mensaje. Intenta de nuevo.
+    </div>
+
+    <form id="contact-form" novalidate class="space-y-6">
+      <!-- Nombre -->
+      <div>
+        <label for="nombre" class="block font-sans font-medium text-dark mb-1">
+          Nombre <span class="text-peru-red" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          autocomplete="name"
+          class="w-full rounded-lg border border-dark/20 bg-white px-4 py-2.5 font-sans text-dark placeholder-dark/40 focus:outline-none focus:ring-2 focus:ring-jungle-green focus:border-transparent transition"
+          placeholder="Tu nombre completo"
+          aria-required="true"
+          aria-describedby="nombre-error"
+        />
+        <p id="nombre-error" class="hidden mt-1 text-sm text-peru-red font-sans" role="alert"></p>
+      </div>
+
+      <!-- Correo electrónico -->
+      <div>
+        <label for="correo" class="block font-sans font-medium text-dark mb-1">
+          Correo electrónico <span class="text-peru-red" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          autocomplete="email"
+          class="w-full rounded-lg border border-dark/20 bg-white px-4 py-2.5 font-sans text-dark placeholder-dark/40 focus:outline-none focus:ring-2 focus:ring-jungle-green focus:border-transparent transition"
+          placeholder="tu@correo.com"
+          aria-required="true"
+          aria-describedby="correo-error"
+        />
+        <p id="correo-error" class="hidden mt-1 text-sm text-peru-red font-sans" role="alert"></p>
+      </div>
+
+      <!-- Asunto -->
+      <div>
+        <label for="asunto" class="block font-sans font-medium text-dark mb-1">
+          Asunto <span class="text-peru-red" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="asunto"
+          name="asunto"
+          class="w-full rounded-lg border border-dark/20 bg-white px-4 py-2.5 font-sans text-dark placeholder-dark/40 focus:outline-none focus:ring-2 focus:ring-jungle-green focus:border-transparent transition"
+          placeholder="Motivo de tu mensaje"
+          aria-required="true"
+          aria-describedby="asunto-error"
+        />
+        <p id="asunto-error" class="hidden mt-1 text-sm text-peru-red font-sans" role="alert"></p>
+      </div>
+
+      <!-- Mensaje -->
+      <div>
+        <label for="mensaje" class="block font-sans font-medium text-dark mb-1">
+          Mensaje <span class="text-peru-red" aria-hidden="true">*</span>
+        </label>
+        <textarea
+          id="mensaje"
+          name="mensaje"
+          rows="5"
+          class="w-full rounded-lg border border-dark/20 bg-white px-4 py-2.5 font-sans text-dark placeholder-dark/40 focus:outline-none focus:ring-2 focus:ring-jungle-green focus:border-transparent transition resize-y"
+          placeholder="Escribe tu mensaje aquí..."
+          aria-required="true"
+          aria-describedby="mensaje-error"
+        ></textarea>
+        <p id="mensaje-error" class="hidden mt-1 text-sm text-peru-red font-sans" role="alert"></p>
+      </div>
+
+      <!-- Botón de envío -->
+      <div class="text-center">
+        <button
+          type="submit"
+          id="submit-btn"
+          class="inline-block bg-peru-red hover:bg-peru-red/90 text-cream font-sans font-semibold px-8 py-3 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-peru-red disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          Enviar mensaje
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { validateContactForm } from '../utils/validateContactForm';
+
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdjjyqz";
+
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const successMsg = document.getElementById('form-success') as HTMLElement;
+  const errorGeneral = document.getElementById('form-error-general') as HTMLElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  // Field error elements
+  const fieldErrors: Record<string, HTMLElement | null> = {
+    nombre:  document.getElementById('nombre-error'),
+    correo:  document.getElementById('correo-error'),
+    asunto:  document.getElementById('asunto-error'),
+    mensaje: document.getElementById('mensaje-error'),
+  };
+
+  // Field inputs
+  const fields: Record<string, HTMLInputElement | HTMLTextAreaElement | null> = {
+    nombre:  document.getElementById('nombre')  as HTMLInputElement,
+    correo:  document.getElementById('correo')  as HTMLInputElement,
+    asunto:  document.getElementById('asunto')  as HTMLInputElement,
+    mensaje: document.getElementById('mensaje') as HTMLTextAreaElement,
+  };
+
+  function clearErrors() {
+    for (const key of Object.keys(fieldErrors)) {
+      const el = fieldErrors[key];
+      if (el) {
+        el.textContent = '';
+        el.classList.add('hidden');
+      }
+      const input = fields[key];
+      if (input) {
+        input.classList.remove('border-peru-red');
+        input.classList.add('border-dark/20');
+      }
+    }
+    successMsg.classList.add('hidden');
+    errorGeneral.classList.add('hidden');
+  }
+
+  function showFieldError(field: string, message: string) {
+    const el = fieldErrors[field];
+    if (el) {
+      el.textContent = message;
+      el.classList.remove('hidden');
+    }
+    const input = fields[field];
+    if (input) {
+      input.classList.remove('border-dark/20');
+      input.classList.add('border-peru-red');
+    }
+  }
+
+  // Map validation error messages to field names
+  function mapErrorToField(error: string): string | null {
+    if (error.toLowerCase().includes('nombre')) return 'nombre';
+    if (error.toLowerCase().includes('correo')) return 'correo';
+    if (error.toLowerCase().includes('asunto')) return 'asunto';
+    if (error.toLowerCase().includes('mensaje')) return 'mensaje';
+    return null;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const input = {
+      nombre:  (fields.nombre?.value ?? ''),
+      correo:  (fields.correo?.value ?? ''),
+      asunto:  (fields.asunto?.value ?? ''),
+      mensaje: (fields.mensaje?.value ?? ''),
+    };
+
+    const { isValid, errors } = validateContactForm(input);
+
+    if (!isValid) {
+      for (const error of errors) {
+        const field = mapErrorToField(error);
+        if (field) {
+          showFieldError(field, error);
+        }
+      }
+      // Focus first invalid field
+      const firstInvalid = Object.keys(fieldErrors).find(
+        (k) => !fieldErrors[k]?.classList.contains('hidden')
+      );
+      if (firstInvalid) fields[firstInvalid]?.focus();
+      return;
+    }
+
+    // Disable button while submitting
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name:    input.nombre,
+          email:   input.correo,
+          subject: input.asunto,
+          message: input.mensaje,
+        }),
+      });
+
+      if (response.ok) {
+        form.reset();
+        successMsg.classList.remove('hidden');
+        successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        errorGeneral.classList.remove('hidden');
+      }
+    } catch {
+      errorGeneral.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar mensaje';
+    }
+  });
+</script>

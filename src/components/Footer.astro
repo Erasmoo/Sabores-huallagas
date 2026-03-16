@@ -1,0 +1,80 @@
+---
+// Footer.astro — Pie de página con redes sociales, contacto y copyright
+import { Icon } from 'astro-icon/components';
+
+const socialLinks = [
+  {
+    name: 'Facebook',
+    icon: 'simple-icons:facebook',
+    url: 'https://facebook.com/erasmofc',
+    handle: '@erasmofc',
+  },
+  {
+    name: 'Instagram',
+    icon: 'simple-icons:instagram',
+    url: 'https://instagram.com/erasmofc',
+    handle: '@erasmofc',
+  },
+  {
+    name: 'TikTok',
+    icon: 'simple-icons:tiktok',
+    url: 'https://tiktok.com/@erasmofc',
+    handle: '@erasmofc',
+  },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-dark text-cream py-12 px-4">
+  <div class="max-w-5xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- Información del restaurante -->
+    <div>
+      <h3 class="font-serif text-xl font-bold text-gold mb-3">
+        Sabores Huallada de Perú
+      </h3>
+      <p class="font-sans text-cream/70 text-sm leading-relaxed">
+        Auténtica cocina peruana en el corazón de Pucallpa.<br />
+        Ven y disfruta de nuestros sabores.
+      </p>
+    </div>
+
+    <!-- Contacto -->
+    <div>
+      <h3 class="font-serif text-lg font-semibold text-gold mb-3">Contacto</h3>
+      <ul class="font-sans text-cream/70 text-sm space-y-2">
+        <li>📍 Centro de Pucallpa, Perú</li>
+        <li>🕐 Lun–Vie: 7:00 AM – 12:00 PM</li>
+        <li>🕐 Lun–Vie: 1:30 PM – 10:00 PM</li>
+      </ul>
+    </div>
+
+    <!-- Redes sociales -->
+    <div>
+      <h3 class="font-serif text-lg font-semibold text-gold mb-3">Síguenos</h3>
+      <ul class="space-y-3">
+        {socialLinks.map((link) => (
+          <li>
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${link.name} — ${link.handle}`}
+              class="inline-flex items-center gap-2 font-sans text-cream/80 hover:text-gold transition text-sm"
+            >
+              <Icon name={link.icon} class="w-5 h-5 shrink-0" aria-hidden="true" />
+              <span>{link.handle}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="mt-10 border-t border-cream/10 pt-6 text-center font-sans text-cream/40 text-xs">
+    &copy; {currentYear} Sabores Huallada de Perú. Todos los derechos reservados.
+  </div>
+</footer>

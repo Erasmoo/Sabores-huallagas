@@ -1,0 +1,41 @@
+{
+  "categories": ["entradas", "principales", "bebidas", "postres"],
+  "items": [
+    {
+      "id": "ceviche-clasico",
+      "name": "Ceviche Clásico",
+      "description": "Pescado fresco marinado en limón con ají amarillo, choclo y camote.",
+      "category": "entradas",
+      "imageSrc": "/images/menu/placeholder.webp",
+      "imageAlt": "Plato de ceviche clásico peruano con choclo y camote",
+      "price": "S/ 25"
+    },
+    {
+      "id": "lomo-saltado",
+      "name": "Lomo Saltado",
+      "description": "Tiras de lomo fino salteadas con tomate, cebolla y ají amarillo, acompañadas de arroz y papas fritas.",
+      "category": "principales",
+      "imageSrc": "/images/menu/placeholder.webp",
+      "imageAlt": "Lomo saltado peruano con arroz blanco y papas fritas",
+      "price": "S/ 35"
+    },
+    {
+      "id": "chicha-morada",
+      "name": "Chicha Morada",
+      "description": "Bebida tradicional peruana elaborada con maíz morado, piña, canela y clavo de olor.",
+      "category": "bebidas",
+      "imageSrc": "/images/menu/placeholder.webp",
+      "imageAlt": "Vaso de chicha morada peruana con hielo",
+      "price": "S/ 8"
+    },
+    {
+      "id": "suspiro-limeno",
+      "name": "Suspiro Limeño",
+      "description": "Postre tradicional limeño de manjar blanco cubierto con merengue de oporto y canela.",
+      "category": "postres",
+      "imageSrc": "/images/menu/placeholder.webp",
+      "imageAlt": "Copa de suspiro limeño con merengue y canela",
+      "price": "S/ 12"
+    }
+  ]
+}

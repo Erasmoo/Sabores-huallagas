@@ -1,0 +1,39 @@
+---
+// Hero.astro — Sección principal de bienvenida del restaurante
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+const { title, subtitle, imageSrc, imageAlt } = Astro.props;
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-dark">
+  <!-- Imagen de fondo optimizada -->
+  <Image
+    src={imageSrc}
+    alt={imageAlt}
+    width={1920}
+    height={1080}
+    class="absolute inset-0 w-full h-full object-cover opacity-50"
+    loading="eager"
+    decoding="async"
+  />
+
+  <!-- Overlay degradado -->
+  <div class="absolute inset-0 bg-gradient-to-b from-dark/60 via-dark/40 to-dark/70"></div>
+
+  <!-- Contenido -->
+  <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-cream leading-tight mb-4 drop-shadow-lg">
+      {title}
+    </h1>
+    <p class="font-sans text-lg sm:text-xl md:text-2xl text-gold font-medium drop-shadow-md">
+      {subtitle}
+    </p>
+  </div>
+</section>
